@@ -18,5 +18,6 @@ export const baseApi = createApi({
     "WALLET",
     "ALL_USER",
     "TRANSACTION_OVERVIEW",
+    "LIMIT",
   ],
 });

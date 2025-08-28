@@ -48,11 +48,6 @@ export const adminSidebarItems: ISidebarItem[] = [
     title: "Transactions",
     items: [
       {
-        title: "Send Money to Agent",
-        url: "/admin/send-money",
-        component: Overview,
-      },
-      {
         title: "Transactions history",
         url: "/admin/transaction-history",
         component: AllTransactionHistory,

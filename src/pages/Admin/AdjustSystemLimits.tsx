@@ -16,16 +16,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { useAdjustFeesCommissionLimitsMutation } from "@/redux/features/wallet/wallet.api";
+import {
+  useAdjustFeesCommissionLimitsMutation,
+  useGetFeesCommissionLimitsQuery,
+} from "@/redux/features/wallet/wallet.api";
 import type { IAdjustFeesCommissionLimits } from "@/types";
+import { useEffect } from "react";
 
 const feesSchema = z.object({
   cashInFeeRate: z
     .number("Must be a number")
     .min(0, "Must be >= 0")
     .max(100, "Max 100%"),
-  cashOutFeeRate: z.number().min(0).max(100),
-  commissionRate: z.number().min(0).max(100),
+  cashOutFeeRate: z.number().min(0).max(1),
+  commissionRate: z.number().min(0).max(1),
   dailyLimit: z.number().min(1, "Daily limit required"),
   monthlyLimit: z.number().min(1, "Monthly limit required"),
   sendMoneyFee: z.number().min(0),
@@ -36,6 +40,8 @@ export default function AdjustSystemLimits() {
 
   const form = useForm<IAdjustFeesCommissionLimits>({
     resolver: zodResolver(feesSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: {
       cashInFeeRate: 0,
       cashOutFeeRate: 0,
@@ -58,6 +64,13 @@ export default function AdjustSystemLimits() {
       toast.error("Failed to update system settings");
     }
   };
+  const { data: fees } = useGetFeesCommissionLimitsQuery();
+
+  useEffect(() => {
+    if (fees?.data) {
+      form.reset(fees.data);
+    }
+  }, [fees, form]);
 
   return (
     <main className="p-6 w-full max-w-2xl mx-auto">
@@ -74,7 +87,7 @@ export default function AdjustSystemLimits() {
             name="cashInFeeRate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Cash In Fee (%)</FormLabel>
+                <FormLabel>Cash In Fee (0-1.0)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -95,7 +108,7 @@ export default function AdjustSystemLimits() {
             name="cashOutFeeRate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Cash Out Fee (%)</FormLabel>
+                <FormLabel>Cash Out Fee (0-1.0)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -116,7 +129,7 @@ export default function AdjustSystemLimits() {
             name="commissionRate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Commission Rate (%)</FormLabel>
+                <FormLabel>Commission Rate (0-1.0)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"

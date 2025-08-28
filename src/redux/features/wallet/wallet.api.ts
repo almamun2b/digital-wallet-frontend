@@ -38,10 +38,18 @@ export const walletApi = baseApi.injectEndpoints({
       IAdjustFeesCommissionLimits
     >({
       query: (body) => ({
-        url: "/admin/adjust-fees-commission-limits",
+        url: "/wallet/adjust-fees-commission-limits",
         method: "PATCH",
         data: body,
       }),
+      invalidatesTags: ["LIMIT"],
+    }),
+    getFeesCommissionLimits: builder.query<IResponse<any>, void>({
+      query: () => ({
+        url: "/wallet/fees-commission-limits",
+        method: "GET",
+      }),
+      providesTags: ["LIMIT"],
     }),
   }),
 });
@@ -51,4 +59,5 @@ export const {
   useApplyForAgentMutation,
   useChangePinMutation,
   useAdjustFeesCommissionLimitsMutation,
+  useGetFeesCommissionLimitsQuery,
 } = walletApi;
