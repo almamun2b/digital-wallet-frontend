@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 export default function AllUsersPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(4);
+  const [limit] = useState(10);
 
   const { data, isLoading } = useAllUserQuery({ page: currentPage, limit });
   const [blockUnblockUser] = useBlockUnblockUserMutation();

@@ -1,5 +1,6 @@
 import AllUsersPage from "@/pages/Admin/AllUsersPage";
 import Overview from "@/pages/Admin/Overview";
+import AllTransactionHistory from "@/pages/Transactions/AllTransactionHistory";
 import ChangePasswordPage from "@/pages/User/ChangePassword";
 import Profile from "@/pages/User/Profile";
 import ChangePin from "@/pages/Wallet/ChangePin";
@@ -40,11 +41,6 @@ export const adminSidebarItems: ISidebarItem[] = [
         url: "/admin/users",
         component: AllUsersPage,
       },
-      {
-        title: "Agents",
-        url: "/admin/agents",
-        component: Overview,
-      },
     ],
   },
   {
@@ -58,7 +54,7 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "Transactions history",
         url: "/admin/transaction-history",
-        component: Overview,
+        component: AllTransactionHistory,
       },
       {
         title: "Adjust system fees/limits",

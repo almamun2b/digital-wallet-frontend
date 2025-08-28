@@ -70,6 +70,19 @@ export const transactionApi = baseApi.injectEndpoints({
         providesTags: ["TRANSACTION_OVERVIEW"],
       }
     ),
+    allTransactionHistory: builder.query<
+      IResponse<ITransaction[]> & {
+        meta: { limit: number; page: number; totalPage: number; total: number };
+      },
+      ITransactionQuery
+    >({
+      query: (params) => ({
+        url: "/transaction/all-transactions",
+        method: "GET",
+        params: params,
+      }),
+      providesTags: ["TRANSACTION"],
+    }),
   }),
 });
 
@@ -80,4 +93,5 @@ export const {
   useCashInMoneyMutation,
   useAgentTransactionsQuery,
   useAdminTransactionsQuery,
+  useAllTransactionHistoryQuery,
 } = transactionApi;
