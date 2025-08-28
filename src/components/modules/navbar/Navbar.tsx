@@ -13,7 +13,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useNavbarTour } from "@/hooks/useNavbarTour";
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import { HelpCircle } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router";
 import { ModeToggle } from "./ModeToggler";
@@ -33,6 +35,7 @@ const navigationLinks = [
 export default function Navbar() {
   const { data: user } = useUserInfoQuery(undefined);
   const location = useLocation();
+  const { resetTour } = useNavbarTour();
 
   return (
     <header className="border-b px-4 md:px-6 sticky top-0 z-50 bg-background">
@@ -43,6 +46,7 @@ export default function Navbar() {
           <Popover>
             <PopoverTrigger asChild>
               <Button
+                data-tour="mobile-menu"
                 className="group size-8 md:hidden"
                 variant="ghost"
                 size="icon"
@@ -77,11 +81,11 @@ export default function Navbar() {
 
           {/* Logo + Desktop Nav */}
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-primary hover:text-primary/90">
+            <Link to="/" className="text-primary hover:text-primary/90" data-tour="logo">
               <Logo />
             </Link>
             {/* Navigation menu */}
-            <NavigationMenu className="max-md:hidden">
+            <NavigationMenu className="max-md:hidden" data-tour="navigation">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => {
                   const isActive = location.pathname === link.href;
@@ -127,9 +131,24 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             {/* <InfoMenu /> */}
-            <ModeToggle />
+            <div data-tour="theme-toggle">
+              <ModeToggle />
+            </div>
+            {/* Tour button */}
+            <Button
+              data-tour="tour-button"
+              variant="ghost"
+              size="icon"
+              onClick={resetTour}
+              className="size-8"
+              title="Start Tour"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </Button>
           </div>
-          <UserMenu />
+          <div data-tour="user-menu">
+            <UserMenu />
+          </div>
         </div>
       </div>
     </header>
