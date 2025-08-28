@@ -1,5 +1,3 @@
-"use client";
-
 import { DatePicker } from "@/components/DatePicker";
 import { Button } from "@/components/ui/button";
 import {
