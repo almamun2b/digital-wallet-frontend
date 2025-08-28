@@ -1,5 +1,11 @@
 import { baseApi } from "@/redux/baseApi";
-import type { IChangePin, IResponse, IUser, IWallet } from "@/types";
+import type {
+  IAdjustFeesCommissionLimits,
+  IChangePin,
+  IResponse,
+  IUser,
+  IWallet,
+} from "@/types";
 
 export const walletApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -27,6 +33,16 @@ export const walletApi = baseApi.injectEndpoints({
         data: body,
       }),
     }),
+    adjustFeesCommissionLimits: builder.mutation<
+      IResponse<any>,
+      IAdjustFeesCommissionLimits
+    >({
+      query: (body) => ({
+        url: "/admin/adjust-fees-commission-limits",
+        method: "PATCH",
+        data: body,
+      }),
+    }),
   }),
 });
 
@@ -34,4 +50,5 @@ export const {
   useMyWalletQuery,
   useApplyForAgentMutation,
   useChangePinMutation,
+  useAdjustFeesCommissionLimitsMutation,
 } = walletApi;

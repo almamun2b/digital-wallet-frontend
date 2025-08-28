@@ -24,4 +24,13 @@ interface IChangePin {
   newPin: string;
 }
 
-export { IChangePin, IWallet, WalletStatus };
+interface IAdjustFeesCommissionLimits {
+  cashInFeeRate: number;
+  cashOutFeeRate: number;
+  commissionRate: number;
+  dailyLimit: number;
+  monthlyLimit: number;
+  sendMoneyFee: number;
+}
+
+export { IAdjustFeesCommissionLimits, IChangePin, IWallet, WalletStatus };

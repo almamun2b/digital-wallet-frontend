@@ -1,3 +1,4 @@
+import AdjustSystemLimits from "@/pages/Admin/AdjustSystemLimits";
 import AllUsersPage from "@/pages/Admin/AllUsersPage";
 import Overview from "@/pages/Admin/Overview";
 import AllTransactionHistory from "@/pages/Transactions/AllTransactionHistory";
@@ -59,7 +60,7 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "Adjust system fees/limits",
         url: "/admin/fees-limits",
-        component: Overview,
+        component: AdjustSystemLimits,
       },
     ],
   },
