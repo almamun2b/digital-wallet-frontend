@@ -105,7 +105,17 @@ interface AgentTransactionsOverview {
   commissionRate: number;
 }
 
+interface AdminTransactionOverview {
+  totalUsers: number;
+  totalAgents: number;
+  totalAdmins: number;
+  totalSuperAdmins: number;
+  totalTransactionCount: number;
+  totalTransactionVolume: number;
+}
+
 export {
+  AdminTransactionOverview,
   AgentTransactionsOverview,
   ICashInBody,
   ICashOutBody,

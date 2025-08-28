@@ -1,3 +1,4 @@
+import AllUsersPage from "@/pages/Admin/AllUsersPage";
 import Overview from "@/pages/Admin/Overview";
 import ChangePasswordPage from "@/pages/User/ChangePassword";
 import Profile from "@/pages/User/Profile";
@@ -37,7 +38,7 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "Users",
         url: "/admin/users",
-        component: Overview,
+        component: AllUsersPage,
       },
       {
         title: "Agents",

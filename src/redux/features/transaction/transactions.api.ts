@@ -1,5 +1,6 @@
 import { baseApi } from "@/redux/baseApi";
 import type {
+  AdminTransactionOverview,
   AgentTransactionsOverview,
   ICashInBody,
   ICashOutBody,
@@ -59,6 +60,16 @@ export const transactionApi = baseApi.injectEndpoints({
       }),
       providesTags: ["TRANSACTION_OVERVIEW"],
     }),
+    adminTransactions: builder.query<IResponse<AdminTransactionOverview>, void>(
+      {
+        query: (params) => ({
+          url: "/transaction/admin-transaction-overview",
+          method: "GET",
+          params: params,
+        }),
+        providesTags: ["TRANSACTION_OVERVIEW"],
+      }
+    ),
   }),
 });
 
@@ -68,4 +79,5 @@ export const {
   useCashOutMoneyMutation,
   useCashInMoneyMutation,
   useAgentTransactionsQuery,
+  useAdminTransactionsQuery,
 } = transactionApi;

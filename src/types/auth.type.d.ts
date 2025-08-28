@@ -47,6 +47,8 @@ interface IUser {
   role: Role;
   agent?: IAgent;
   auths: IAuthProvider[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface IChangePassword {
