@@ -17,8 +17,8 @@ export default function HeroBanner() {
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-background hero-mesh">
       {/* Mesh Background Decorations */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full -mr-64 -mt-32 opacity-20 dark:opacity-10 animate-pulse" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/10 blur-[100px] rounded-full -ml-48 -mb-24 opacity-15 dark:opacity-5 transition-all duration-1000" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full -mr-64 -mt-32 opacity-10 dark:opacity-5 animate-pulse" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/10 blur-[100px] rounded-full -ml-48 -mb-24 opacity-8 dark:opacity-3 transition-all duration-1000" />
 
       <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center py-12 md:py-20 lg:py-24 relative z-10">
         {/* Content */}
@@ -79,7 +79,7 @@ export default function HeroBanner() {
 
         {/* Visual / Image */}
         <div className="relative group animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
-          <div className="absolute inset-0 bg-primary/10 blur-[80px] rounded-full group-hover:bg-primary/20 transition-colors duration-700" />
+          <div className="absolute inset-0 bg-primary/5 blur-[80px] rounded-full group-hover:bg-primary/10 transition-colors duration-700" />
           <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl animate-float">
             <img
               src={heroImage}
