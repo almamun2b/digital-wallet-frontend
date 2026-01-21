@@ -248,8 +248,8 @@ export default function Overview() {
                           {tx.type === "TRANSFER" && (
                             <p className="text-xs text-muted-foreground">
                               {user?.data?._id === tx.sender._id
-                                ? `To: ${tx.receiver.name}`
-                                : `From: ${tx.sender.name}`}
+                                ? `To: ${tx.receiver?.name}`
+                                : `From: ${tx.sender?.name}`}
                             </p>
                           )}
                         </div>
