@@ -138,9 +138,9 @@
 
   .hero-mesh {
     background-image: 
-      radial-gradient(at 0% 0%, color-mix(in srgb, var(--primary), transparent 92%) 0, transparent 50%), 
-      radial-gradient(at 50% 0%, color-mix(in srgb, var(--primary), transparent 95%) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, color-mix(in srgb, var(--primary), transparent 92%) 0, transparent 50%);
+      radial-gradient(at 0% 0%, color-mix(in srgb, var(--primary), transparent 97%) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, color-mix(in srgb, var(--primary), transparent 98.5%) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, color-mix(in srgb, var(--primary), transparent 97%) 0, transparent 50%);
   }
 
   @keyframes float {
