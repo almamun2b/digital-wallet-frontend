@@ -19,6 +19,7 @@ import { HelpCircle } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router";
 import { ModeToggle } from "./ModeToggler";
+import { cn } from "@/lib/utils";
 
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
@@ -27,9 +28,6 @@ const navigationLinks = [
   { href: "/pricing", label: "Pricing", role: "PUBLIC" },
   { href: "/contact-us", label: "Contact Us", role: "PUBLIC" },
   { href: "/faq", label: "FAQ", role: "PUBLIC" },
-  // { href: "/admin", label: "Dashboard", role: role.superAdmin },
-  // { href: "/admin", label: "Dashboard", role: role.admin },
-  // { href: "/user", label: "Dashboard", role: role.user },
 ];
 
 export default function Navbar() {
@@ -37,118 +35,118 @@ export default function Navbar() {
   const location = useLocation();
   const { resetTour } = useNavbarTour();
 
-  return (
-    <header className="border-b px-4 md:px-6 sticky top-0 z-50 bg-background">
-      <div className="container mx-auto px-4 flex h-16 items-center justify-between gap-4">
-        {/* Left side */}
-        <div className="flex items-center gap-2">
-          {/* Mobile menu trigger */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                data-tour="mobile-menu"
-                className="group size-8 md:hidden"
-                variant="ghost"
-                size="icon"
-              >
-                <HamburgerMenu />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-36 p-1 md:hidden">
-              <NavigationMenu className="max-w-none *:w-full">
-                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                  {navigationLinks.map((link, index) => {
-                    const isActive = location.pathname === link.href;
-                    return (
-                      <NavigationMenuItem key={index} className="w-full">
-                        <NavigationMenuLink
-                          asChild
-                          className={`py-1.5 w-full ${
-                            isActive
-                              ? "text-primary font-semibold"
-                              : "text-muted-foreground hover:text-primary"
-                          }`}
-                        >
-                          <Link to={link.href}>{link.label}</Link>
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    );
-                  })}
-                </NavigationMenuList>
-              </NavigationMenu>
-            </PopoverContent>
-          </Popover>
+  const [isScrolled, setIsScrolled] = React.useState(false);
 
-          {/* Logo + Desktop Nav */}
-          <div className="flex items-center gap-6">
-            <Link to="/" className="text-primary hover:text-primary/90" data-tour="logo">
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header className={cn(
+      "sticky top-0 z-50 w-full transition-all duration-500",
+      isScrolled ? "glass-effect py-2 shadow-sm" : "bg-transparent py-4"
+    )}>
+      <div className="container mx-auto px-6 lg:px-12 flex h-auto items-center justify-between gap-4">
+        {/* Left side */}
+        <div className="flex items-center gap-10">
+          <Link to="/" className="group flex items-center gap-2" data-tour="logo">
+            <div className="transition-transform duration-300 group-hover:scale-110 group-active:scale-95">
               <Logo />
-            </Link>
-            {/* Navigation menu */}
-            <NavigationMenu className="max-md:hidden" data-tour="navigation">
-              <NavigationMenuList className="gap-2">
-                {navigationLinks.map((link, index) => {
-                  const isActive = location.pathname === link.href;
-                  return (
-                    <React.Fragment key={index}>
-                      {link.role === "PUBLIC" && (
-                        <NavigationMenuItem>
-                          <NavigationMenuLink
-                            asChild
-                            className={`py-1.5 font-medium ${
-                              isActive
-                                ? "text-primary font-semibold"
-                                : "text-muted-foreground hover:text-primary"
-                            }`}
-                          >
-                            <Link to={link.href}>{link.label}</Link>
-                          </NavigationMenuLink>
-                        </NavigationMenuItem>
+            </div>
+          </Link>
+
+          {/* Desktop Nav */}
+          <NavigationMenu className="hidden md:flex" data-tour="navigation">
+            <NavigationMenuList className="gap-1">
+              {navigationLinks.map((link, index) => {
+                const isActive = location.pathname === link.href;
+                const isPublic = link.role === "PUBLIC";
+                const isUserRole = link.role === user?.data?.role;
+
+                if (!isPublic && !isUserRole) return null;
+
+                return (
+                  <NavigationMenuItem key={index}>
+                    <NavigationMenuLink
+                      asChild
+                      className={cn(
+                        "px-4 py-2 text-sm font-medium transition-colors nav-link-hover",
+                        isActive
+                          ? "text-primary font-semibold"
+                          : "text-muted-foreground hover:text-foreground"
                       )}
-                      {link.role === user?.data?.role && (
-                        <NavigationMenuItem>
-                          <NavigationMenuLink
-                            asChild
-                            className={`py-1.5 font-medium ${
-                              isActive
-                                ? "text-primary font-semibold"
-                                : "text-muted-foreground hover:text-primary"
-                            }`}
-                          >
-                            <Link to={link.href}>{link.label}</Link>
-                          </NavigationMenuLink>
-                        </NavigationMenuItem>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
+                    >
+                      <Link to={link.href}>{link.label}</Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                );
+              })}
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
 
         {/* Right side */}
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            {/* <InfoMenu /> */}
-            <div data-tour="theme-toggle">
+          <div className="flex items-center space-x-2 mr-2">
+            <div data-tour="theme-toggle" className="hover:scale-110 transition-transform">
               <ModeToggle />
             </div>
-            {/* Tour button */}
             <Button
               data-tour="tour-button"
               variant="ghost"
               size="icon"
               onClick={resetTour}
-              className="size-8"
+              className="size-9 rounded-full hover:bg-primary/10 hover:text-primary transition-all active:scale-90"
               title="Start Tour"
             >
-              <HelpCircle className="h-4 w-4" />
+              <HelpCircle className="h-[1.2rem] w-[1.2rem]" />
             </Button>
           </div>
-          <div data-tour="user-menu">
-            <UserMenu />
+
+          <div className="hidden sm:block border-l pl-4 dark:border-white/10">
+            <div data-tour="user-menu">
+              <UserMenu />
+            </div>
           </div>
+
+          {/* Mobile menu trigger */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                data-tour="mobile-menu"
+                className="group size-9 md:hidden rounded-full transition-all active:scale-90"
+                variant="outline"
+                size="icon"
+              >
+                <HamburgerMenu />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent align="end" className="w-56 mt-2 p-2 glass-effect border-none shadow-xl md:hidden">
+              <div className="flex flex-col gap-1">
+                {navigationLinks.map((link, index) => {
+                  const isActive = location.pathname === link.href;
+                  return (
+                    <Link
+                      key={index}
+                      to={link.href}
+                      className={cn(
+                        "px-4 py-3 rounded-lg text-sm transition-all",
+                        isActive
+                          ? "bg-primary/10 text-primary font-bold"
+                          : "text-muted-foreground hover:bg-muted"
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </header>

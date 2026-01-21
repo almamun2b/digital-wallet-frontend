@@ -1,227 +1,140 @@
 import Logo from "@/assets/icons/Logo";
-import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Github, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 export default function Footer() {
+  const socialLinks = [
+    { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Github, href: "https://github.com", label: "GitHub" },
+    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  ];
+
+  const footerLinks = [
+    {
+      title: "Services",
+      links: [
+        { label: "Features", href: "/features" },
+        { label: "Pricing", href: "/pricing" },
+        { label: "About Us", href: "/about" },
+        { label: "Dashboard", href: "/user" },
+      ],
+    },
+    {
+      title: "Support",
+      links: [
+        { label: "Contact", href: "/contact-us" },
+        { label: "FAQs", href: "/faq" },
+        { label: "Help Center", href: "/" },
+        { label: "Feedback", href: "/" },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { label: "Privacy Policy", href: "/" },
+        { label: "Terms of Service", href: "/" },
+        { label: "Accessibility", href: "/" },
+        { label: "Refund Policy", href: "/" },
+      ],
+    },
+  ];
+
   return (
-    <footer className="border-t">
-      <div className="mx-auto container px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
-        <div className="space-y-8 lg:space-y-12">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
-            <div className="lg:col-span-1">
-              <div className="flex items-center gap-3">
+    <footer className="relative border-t bg-background overflow-hidden">
+      {/* Mesh decoration for footer */}
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 blur-[100px] rounded-full -mr-32 -mb-32 pointer-events-none" />
+      
+      <div className="mx-auto container px-6 lg:px-12 py-16 lg:py-24 relative z-10">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+          {/* Logo and Info */}
+          <div className="space-y-8 lg:col-span-12 xl:col-span-4">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="group-hover:scale-110 transition-transform duration-300">
                 <Logo />
-                <span className="text-xl font-medium text-primary">
-                  Digital Wallet
-                </span>
               </div>
+              <span className="text-2xl font-black text-primary tracking-tighter">
+                DIGITAL WALLET.
+              </span>
+            </Link>
 
-              <p className="mt-4 text-sm text-muted-foreground sm:text-base lg:max-w-xs">
-                Secure your finances, manage transactions, and access your money
-                globally. Designed for Users, Agents, and Admins with powerful
-                role-based dashboards.
-              </p>
+            <p className="text-base text-muted-foreground leading-relaxed max-w-xs">
+              Empowering your financial journey with next-gen digital solutions. Secure, fast, and globally accessible.
+            </p>
 
-              {/* Social Media Links */}
-              <div className="mt-6 sm:mt-8">
-                <p className="text-sm font-medium text-foreground/90 mb-4">
-                  Follow us
-                </p>
-                <ul className="flex gap-4 sm:gap-6">
-                  <li>
-                    <Link
-                      to="https://www.facebook.com/"
-                      rel="noreferrer"
-                      target="_blank"
-                      className="text-foreground/80 transition hover:text-foreground hover:scale-110"
-                    >
-                      <span className="sr-only">Facebook</span>
-                      <Facebook
-                        className="size-5 sm:size-6"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link
-                      to="https://www.instagram.com/"
-                      rel="noreferrer"
-                      target="_blank"
-                      className="text-foreground/80 transition hover:text-foreground hover:scale-110"
-                    >
-                      <span className="sr-only">Instagram</span>
-                      <Instagram
-                        className="size-5 sm:size-6"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link
-                      to="https://www.twitter.com/"
-                      rel="noreferrer"
-                      target="_blank"
-                      className="text-foreground/80 transition hover:text-foreground hover:scale-110"
-                    >
-                      <span className="sr-only">Twitter</span>
-                      <Twitter
-                        className="size-5 sm:size-6"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link
-                      to="https://www.github.com/"
-                      rel="noreferrer"
-                      target="_blank"
-                      className="text-foreground/80 transition hover:text-foreground hover:scale-110"
-                    >
-                      <span className="sr-only">GitHub</span>
-                      <Github className="size-5 sm:size-6" aria-hidden="true" />
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link
-                      to="https://www.linkedin.com/"
-                      rel="noreferrer"
-                      target="_blank"
-                      className="text-foreground/80 transition hover:text-foreground hover:scale-110"
-                    >
-                      <span className="sr-only">LinkedIn</span>
-                      <Linkedin
-                        className="size-5 sm:size-6"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </li>
-                </ul>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer group">
+                <Mail className="size-4 group-hover:scale-110 transition-transform" />
+                <span>support@digitalwallet.com</span>
               </div>
-            </div>
-
-            {/* Links Section */}
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-2 lg:gap-12">
-              <div>
-                <p className="font-medium text-foreground/90 text-sm sm:text-base">
-                  Services
-                </p>
-                <ul className="mt-4 sm:mt-6 space-y-3 sm:space-y-4 text-sm">
-                  <li>
-                    <Link
-                      to="/features"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Features
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/pricing"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Pricing
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/about"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      About
-                    </Link>
-                  </li>
-                </ul>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer group">
+                <Phone className="size-4 group-hover:scale-110 transition-transform" />
+                <span>+1 (800) FINANCE</span>
               </div>
-
-              <div>
-                <p className="font-medium text-foreground/90 text-sm sm:text-base">
-                  Support
-                </p>
-                <ul className="mt-4 sm:mt-6 space-y-3 sm:space-y-4 text-sm">
-                  <li>
-                    <Link
-                      to="/contact-us"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Contact
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/faq"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      FAQs
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Help Center
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <p className="font-medium text-foreground/90 text-sm sm:text-base">
-                  Legal
-                </p>
-                <ul className="mt-4 sm:mt-6 space-y-3 sm:space-y-4 text-sm">
-                  <li>
-                    <Link
-                      to="/"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Terms of Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Accessibility
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/"
-                      className="text-foreground/80 transition hover:text-foreground/60 hover:underline"
-                    >
-                      Refund Policy
-                    </Link>
-                  </li>
-                </ul>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer group">
+                <MapPin className="size-4 group-hover:scale-110 transition-transform" />
+                <span>Financial District, NY 10004</span>
               </div>
             </div>
           </div>
 
-          {/* Copyright Section */}
-          <div className="border-t pt-6 sm:pt-8">
-            <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-              <p className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
-                &copy; {new Date().getFullYear()} Digital Wallet. All rights
-                reserved.
-              </p>
-              <p className="text-xs sm:text-sm text-muted-foreground text-center sm:text-right">
-                Made with ❤️ for secure digital transactions
-              </p>
+          {/* Links Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 lg:col-span-12 xl:col-span-8">
+            {footerLinks.map((section) => (
+              <div key={section.title} className="space-y-6">
+                <h4 className="text-sm font-bold uppercase tracking-widest text-foreground/80">
+                  {section.title}
+                </h4>
+                <ul className="space-y-4">
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        to={link.href}
+                        className="text-muted-foreground hover:text-primary hover:translate-x-1 transition-all flex items-center group text-[0.95rem]"
+                      >
+                        <span className="w-0 overflow-hidden group-hover:w-2 transition-all mr-0 group-hover:mr-2">›</span>
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Separator className="my-12 opacity-50" />
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p className="text-sm text-muted-foreground">
+              &copy; {new Date().getFullYear()} Digital Wallet platform. Built for global finance.
+            </p>
+            <div className="flex gap-4 text-xs font-medium text-muted-foreground/60 uppercase tracking-widest">
+              <Link to="/" className="hover:text-primary transition-colors">Security</Link>
+              <Link to="/" className="hover:text-primary transition-colors">Privacy</Link>
+              <Link to="/" className="hover:text-primary transition-colors">Cookies</Link>
             </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            {socialLinks.map((social) => (
+              <Button
+                key={social.label}
+                variant="outline"
+                size="icon"
+                asChild
+                className="rounded-full size-10 hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all hover:-translate-y-1 active:scale-90"
+              >
+                <Link to={social.href} target="_blank" rel="noopener noreferrer">
+                  <social.icon className="size-5" />
+                  <span className="sr-only">{social.label}</span>
+                </Link>
+              </Button>
+            ))}
           </div>
         </div>
       </div>
