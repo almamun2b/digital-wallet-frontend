@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { sendContactEmail } from "@/actions/email";
 import { DynamicFormField } from "@/components/DynamicFormField";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Button } from "@/components/ui/button";
@@ -7,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, MessageSquare, Send } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -21,6 +24,8 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactUs() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     mode: "onChange",
@@ -34,14 +39,23 @@ export default function ContactUs() {
   });
 
   const onSubmit = async (values: ContactFormData) => {
+    setIsLoading(true);
     try {
-      console.log("Form Values:", values);
+      const result = await sendContactEmail(values);
 
-      toast.success("Message sent successfully! We'll get back to you soon.");
-      form.reset();
-    } catch (error) {
+      if (result.success) {
+        toast.success(result.message);
+        form.reset();
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error: any) {
       console.error("Failed to send message:", error);
-      toast.error("Failed to send message. Please try again later.");
+      toast.error(
+        error?.message || "Failed to send message. Please try again later.",
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -158,17 +172,17 @@ export default function ContactUs() {
                       type="submit"
                       size="lg"
                       className="w-full h-14 rounded-xl text-base font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 button-glow"
-                      disabled={form.formState.isSubmitting}
+                      disabled={isLoading || form.formState.isSubmitting}
                     >
-                      {form.formState.isSubmitting ? (
+                      {isLoading || form.formState.isSubmitting ? (
                         <div className="flex items-center gap-2">
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                          Sending...
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Sending...</span>
                         </div>
                       ) : (
                         <div className="flex items-center gap-2">
-                          <Send className="h-5 w-5" />
-                          Send Message
+                          <Send className="w-4 h-4" />
+                          <span>Send Message</span>
                         </div>
                       )}
                     </Button>
