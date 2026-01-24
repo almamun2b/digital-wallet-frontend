@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DynamicFormField } from "@/components/DynamicFormField";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Password from "@/components/ui/Password";
@@ -19,6 +21,33 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+const demoUsers = [
+  {
+    id: 1,
+    email: "super@gmail.com",
+    password: "Password1$",
+    role: "Super",
+  },
+  {
+    id: 2,
+    email: "admin@gmail.com",
+    password: "Password1$",
+    role: "Admin",
+  },
+  {
+    id: 2,
+    email: "agent@gmail.com",
+    password: "Password1$",
+    role: "Agent",
+  },
+  {
+    id: 2,
+    email: "user@gmail.com",
+    password: "Password1$",
+    role: "User",
+  },
+];
+
 export function LoginForm() {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
@@ -32,6 +61,12 @@ export function LoginForm() {
       password: "",
     },
   });
+
+  const setCredentials = (email: string, password: string) => {
+    form.setValue("email", email);
+    form.setValue("password", password);
+    form.trigger(["email", "password"]);
+  };
 
   const onSubmit = async (data: LoginFormData) => {
     try {
@@ -81,6 +116,27 @@ export function LoginForm() {
             </Button>
           </form>
         </Form>
+
+        <Card>
+          <CardContent>
+            <h3 className="text-sm font-medium mb-3">
+              Demo users for testing (Click to fill form)
+            </h3>
+            <div className="flex items-center gap-2">
+              {demoUsers.map((user) => (
+                <Button
+                  key={user.id}
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => setCredentials(user.email, user.password)}
+                >
+                  <span className="font-medium">{user.role}</span>
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">

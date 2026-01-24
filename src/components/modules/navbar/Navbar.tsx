@@ -14,20 +14,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useNavbarTour } from "@/hooks/useNavbarTour";
+import { cn } from "@/lib/utils";
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { HelpCircle } from "lucide-react";
 import React from "react";
 import { Link, useLocation } from "react-router";
 import { ModeToggle } from "./ModeToggler";
-import { cn } from "@/lib/utils";
 
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
   { href: "/about", label: "About", role: "PUBLIC" },
   { href: "/features", label: "Features", role: "PUBLIC" },
   { href: "/pricing", label: "Pricing", role: "PUBLIC" },
-  { href: "/contact-us", label: "Contact Us", role: "PUBLIC" },
   { href: "/faq", label: "FAQ", role: "PUBLIC" },
+  { href: "/feedback", label: "Feedback", role: "USER" },
 ];
 
 export default function Navbar() {
@@ -46,14 +46,20 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={cn(
-      "sticky top-0 z-50 w-full transition-all duration-500",
-      isScrolled ? "glass-effect py-2 shadow-sm" : "bg-transparent py-4"
-    )}>
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-500",
+        isScrolled ? "glass-effect py-2 shadow-sm" : "bg-transparent py-4",
+      )}
+    >
       <div className="container mx-auto px-6 lg:px-12 flex h-auto items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-10">
-          <Link to="/" className="group flex items-center gap-2" data-tour="logo">
+          <Link
+            to="/"
+            className="group flex items-center gap-2"
+            data-tour="logo"
+          >
             <div className="transition-transform duration-300 group-hover:scale-110 group-active:scale-95">
               <Logo />
             </div>
@@ -77,7 +83,7 @@ export default function Navbar() {
                         "px-4 py-2 text-sm font-medium transition-colors nav-link-hover",
                         isActive
                           ? "text-primary font-semibold"
-                          : "text-muted-foreground hover:text-foreground"
+                          : "text-muted-foreground hover:text-foreground",
                       )}
                     >
                       <Link to={link.href}>{link.label}</Link>
@@ -92,7 +98,10 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-4">
           <div className="flex items-center space-x-2 mr-2">
-            <div data-tour="theme-toggle" className="hover:scale-110 transition-transform">
+            <div
+              data-tour="theme-toggle"
+              className="hover:scale-110 transition-transform"
+            >
               <ModeToggle />
             </div>
             <Button
@@ -125,10 +134,18 @@ export default function Navbar() {
                 <HamburgerMenu />
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="end" className="w-56 mt-2 p-2 glass-effect border-none shadow-xl md:hidden">
+            <PopoverContent
+              align="end"
+              className="w-56 mt-2 p-2 glass-effect border-none shadow-xl md:hidden"
+            >
               <div className="flex flex-col gap-1">
                 {navigationLinks.map((link, index) => {
                   const isActive = location.pathname === link.href;
+                  const isPublic = link.role === "PUBLIC";
+                  const isUserRole = link.role === user?.data?.role;
+
+                  if (!isPublic && !isUserRole) return null;
+
                   return (
                     <Link
                       key={index}
@@ -137,7 +154,7 @@ export default function Navbar() {
                         "px-4 py-3 rounded-lg text-sm transition-all",
                         isActive
                           ? "bg-primary/10 text-primary font-bold"
-                          : "text-muted-foreground hover:bg-muted"
+                          : "text-muted-foreground hover:bg-muted",
                       )}
                     >
                       {link.label}
