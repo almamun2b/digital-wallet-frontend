@@ -1,18 +1,18 @@
 import heroImage from "@/assets/images/heroImage.png";
 import { Button } from "@/components/ui/button";
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import { ArrowRight, Globe, Shield, Zap } from "lucide-react";
 import { Link } from "react-router";
-import { ArrowRight, Shield, Globe, Zap } from "lucide-react";
 
 export default function HeroBanner() {
   const { data: user } = useUserInfoQuery();
-  
-  const dashboardLink = 
+
+  const dashboardLink =
     user?.data?.role === "ADMIN" || user?.data?.role === "SUPER_ADMIN"
       ? "/admin"
       : user?.data?.role === "AGENT"
-      ? "/agent"
-      : "/user";
+        ? "/agent"
+        : "/user";
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-background hero-mesh">
@@ -25,16 +25,20 @@ export default function HeroBanner() {
         <div className="text-center lg:text-left space-y-8 max-w-2xl mx-auto lg:mx-0">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 backdrop-blur-sm animate-in fade-in slide-in-from-top-4 duration-700">
             <Zap className="size-4 animate-pulse fill-primary/20" />
-            <span className="text-sm font-semibold tracking-wide uppercase">The Future of Digital Finance</span>
+            <span className="text-sm font-semibold tracking-wide uppercase">
+              The Future of Digital Finance
+            </span>
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] animate-in fade-in slide-in-from-left-6 duration-1000">
-            One Wallet, <span className="text-primary italic">Endless</span> <br className="hidden md:block" /> Possibilities
+            One Wallet, <span className="text-primary italic">Endless</span>{" "}
+            <br className="hidden md:block" /> Possibilities
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed animate-in fade-in slide-in-from-left-8 duration-1000 delay-200">
-            Securely manage your global transactions with bank-level encryption. 
-            A unified platform for users, agents, and admins to navigate the digital economy with ease.
+            Securely manage your global transactions with bank-level encryption.
+            A unified platform for users, agents, and admins to navigate the
+            digital economy with ease.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">
@@ -45,7 +49,8 @@ export default function HeroBanner() {
             >
               {user?.data?.email ? (
                 <Link to={dashboardLink} className="flex items-center gap-2">
-                  Go to Dashboard <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
+                  Go to Dashboard{" "}
+                  <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               ) : (
                 <Link to="/register" className="flex items-center gap-2">
@@ -78,7 +83,7 @@ export default function HeroBanner() {
         </div>
 
         {/* Visual / Image */}
-        <div className="relative group animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
+        <div className="relative group">
           <div className="absolute inset-0 bg-primary/5 blur-[80px] rounded-full group-hover:bg-primary/10 transition-colors duration-700" />
           <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl animate-float">
             <img
@@ -94,7 +99,9 @@ export default function HeroBanner() {
                 </div>
                 <div>
                   <h4 className="font-bold">Real-time Trading</h4>
-                  <p className="text-sm text-muted-foreground">Transactions processed in milliseconds</p>
+                  <p className="text-sm text-muted-foreground">
+                    Transactions processed in milliseconds
+                  </p>
                 </div>
               </div>
             </div>

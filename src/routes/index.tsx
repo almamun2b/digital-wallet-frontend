@@ -2,15 +2,21 @@ import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { role } from "@/constants/role";
 import About from "@/pages/About";
+import Accessibility from "@/pages/Accessibility";
 import ContactUs from "@/pages/ContactUs";
 import Faq from "@/pages/Faq";
 import Features from "@/pages/Features";
+import Feedback from "@/pages/Feedback";
+import HelpCenter from "@/pages/HelpCenter";
 import Homepage from "@/pages/Homepage";
 import Login from "@/pages/Login";
 import Fail from "@/pages/Payment/Fail";
 import Success from "@/pages/Payment/Success";
 import Pricing from "@/pages/Pricing";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import RefundPolicy from "@/pages/RefundPolicy";
 import Register from "@/pages/Register";
+import TermsOfService from "@/pages/TermsOfService";
 import Unauthorized from "@/pages/Unauthorized";
 import EditProfile from "@/pages/User/EditProfile";
 import Verify from "@/pages/Verify";
@@ -50,6 +56,30 @@ const router = createBrowserRouter([
       {
         Component: Faq,
         path: "faq",
+      },
+      {
+        Component: HelpCenter,
+        path: "help-center",
+      },
+      {
+        Component: Feedback,
+        path: "feedback",
+      },
+      {
+        Component: PrivacyPolicy,
+        path: "privacy-policy",
+      },
+      {
+        Component: TermsOfService,
+        path: "terms-of-service",
+      },
+      {
+        Component: Accessibility,
+        path: "accessibility",
+      },
+      {
+        Component: RefundPolicy,
+        path: "refund-policy",
       },
     ],
   },
