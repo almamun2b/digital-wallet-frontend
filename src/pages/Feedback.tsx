@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { sendFeedbackEmail } from "@/actions/email";
 import { DynamicFormField } from "@/components/DynamicFormField";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Button } from "@/components/ui/button";
@@ -26,6 +28,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -113,13 +116,15 @@ const recentFeedback = [
   },
 ];
 
-export default function Feedback() {
+export default function FeedbackPage() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<FeedbackFormData>({
     resolver: zodResolver(feedbackSchema),
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      type: "general",
+      type: "",
       subject: "",
       message: "",
       email: "",
@@ -132,15 +137,23 @@ export default function Feedback() {
   );
 
   const onSubmit = async (values: FeedbackFormData) => {
+    setIsLoading(true);
     try {
-      console.log("Feedback Values:", values);
-      toast.success(
-        "Thank you for your feedback! We'll review it and get back to you if needed.",
-      );
-      form.reset();
-    } catch (error) {
+      const result = await sendFeedbackEmail(values);
+
+      if (result.success) {
+        toast.success(result.message);
+        form.reset();
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error: any) {
       console.error("Failed to submit feedback:", error);
-      toast.error("Failed to submit feedback. Please try again later.");
+      toast.error(
+        error?.message || "Failed to submit feedback. Please try again later.",
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -303,10 +316,12 @@ export default function Feedback() {
                         size="lg"
                         className="flex-1 h-14 rounded-xl text-base font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 button-glow"
                         disabled={
-                          !form.watch("type") || form.formState.isSubmitting
+                          !form.watch("type") ||
+                          isLoading ||
+                          form.formState.isSubmitting
                         }
                       >
-                        {form.formState.isSubmitting ? (
+                        {isLoading || form.formState.isSubmitting ? (
                           <div className="flex items-center gap-2">
                             <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
                             Submitting...

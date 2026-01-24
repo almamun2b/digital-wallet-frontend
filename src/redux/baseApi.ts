@@ -19,5 +19,6 @@ export const baseApi = createApi({
     "ALL_USER",
     "TRANSACTION_OVERVIEW",
     "LIMIT",
+    "EMAIL",
   ],
 });
