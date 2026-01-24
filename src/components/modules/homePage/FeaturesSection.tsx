@@ -1,6 +1,12 @@
-import { BarChart, CreditCard, ShieldCheck, Users } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { BarChart, CreditCard, ShieldCheck, Users } from "lucide-react";
 
 export default function Features() {
   const features = [
@@ -35,7 +41,7 @@ export default function Features() {
   ];
 
   return (
-    <section className="relative isolate overflow-hidden py-24 sm:py-32 bg-background">
+    <section className="relative isolate overflow-hidden py-24 bg-background">
       {/* Background decoration */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full -z-10 opacity-5">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary blur-[100px] rounded-full" />
@@ -52,13 +58,15 @@ export default function Features() {
 
         <div className="mx-auto mt-16 lg:mt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, idx) => (
-            <Card 
-              key={feature.name} 
+            <Card
+              key={feature.name}
               className="group relative border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-12"
               style={{ animationDelay: `${idx * 150}ms` }}
             >
               <CardHeader className="space-y-4">
-                <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${feature.color} group-hover:scale-110 transition-transform duration-500`}>
+                <div
+                  className={`flex h-14 w-14 items-center justify-center rounded-2xl ${feature.color} group-hover:scale-110 transition-transform duration-500`}
+                >
                   <feature.icon className="h-7 w-7" />
                 </div>
                 <CardTitle className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">

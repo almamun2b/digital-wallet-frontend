@@ -15,12 +15,12 @@ export default function HeroBanner() {
         : "/user";
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-background hero-mesh">
+    <section className="relative flex items-center overflow-hidden bg-background hero-mesh">
       {/* Mesh Background Decorations */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full -mr-64 -mt-32 opacity-10 dark:opacity-5 animate-pulse" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/10 blur-[100px] rounded-full -ml-48 -mb-24 opacity-8 dark:opacity-3 transition-all duration-1000" />
 
-      <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center py-12 md:py-20 lg:py-24 relative z-10">
+      <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center py-12 md:py-20 relative z-10">
         {/* Content */}
         <div className="text-center lg:text-left space-y-8 max-w-2xl mx-auto lg:mx-0">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 backdrop-blur-sm animate-in fade-in slide-in-from-top-4 duration-700">
@@ -89,7 +89,7 @@ export default function HeroBanner() {
             <img
               src={heroImage}
               alt="Digital Wallet interface"
-              className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
+              className="w-full max-w-[560px] mx-auto h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
             />
             {/* Glass decoration on image */}
             <div className="absolute bottom-8 left-8 right-8 p-6 glass-effect rounded-3xl border border-white/10 hidden md:block">
