@@ -72,6 +72,12 @@ export function LoginForm() {
     try {
       const res = await login(data).unwrap();
       if (res.statusCode === 200) {
+        if (res.data?.accessToken) {
+          localStorage.setItem("accessToken", res.data.accessToken);
+        }
+        if (res.data?.refreshToken) {
+          localStorage.setItem("refreshToken", res.data.refreshToken);
+        }
         toast.success(res.message || "Login successful");
         navigate("/");
       }

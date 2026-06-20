@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
 import type { IResponse, ISendOtp, IUser, IVerifyOtp } from "@/types";
 

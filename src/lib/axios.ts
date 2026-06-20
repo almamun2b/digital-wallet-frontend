@@ -10,7 +10,10 @@ export const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {
@@ -41,6 +44,10 @@ const processQueue = (error: unknown) => {
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
+    if (response.config.url?.endsWith("/auth/logout")) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    }
     return response;
   },
   async (error) => {
@@ -51,7 +58,7 @@ axiosInstance.interceptors.response.use(
     // Handle JWT Expired
     if (
       error.response?.status === 401 ||
-      (error.response.status === 500 &&
+      (error.response?.status === 500 &&
         error.response?.data?.message?.toLowerCase().includes("expired") &&
         !originalRequest._retry)
     ) {
@@ -67,11 +74,24 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await axiosInstance.post("/auth/refresh-token");
+        const refreshToken = localStorage.getItem("refreshToken");
+        const res = await axiosInstance.post("/auth/refresh-token", {
+          refreshToken,
+        });
+
+        if (res.data?.data?.accessToken) {
+          localStorage.setItem("accessToken", res.data.data.accessToken);
+        }
+        if (res.data?.data?.refreshToken) {
+          localStorage.setItem("refreshToken", res.data.data.refreshToken);
+        }
+
         processQueue(null);
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         window.location.href = "/register";
         return Promise.reject(refreshError);
       } finally {
