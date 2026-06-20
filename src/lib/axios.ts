@@ -4,6 +4,7 @@ import axios, { type AxiosRequestConfig } from "axios";
 export const axiosInstance = axios.create({
   baseURL: env.baseUrl,
   withCredentials: true,
+  timeout: 20000,
 });
 
 // Add a request interceptor
@@ -15,7 +16,7 @@ axiosInstance.interceptors.request.use(
   function (error) {
     // Do something with request error
     return Promise.reject(error);
-  }
+  },
 );
 
 let isRefreshing = false;
@@ -43,21 +44,18 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    // console.log("Request failed", error.response.data.message);
-
     const originalRequest = error.config as AxiosRequestConfig & {
-      _retry: boolean;
+      _retry?: boolean;
     };
 
+    // Handle JWT Expired
     if (
-      error.response.status === 500 &&
-      error.response.data.message === "jwt expired" &&
-      !originalRequest._retry
+      error.response?.status === 401 ||
+      (error.response.status === 500 &&
+        error.response?.data?.message?.toLowerCase().includes("expired") &&
+        !originalRequest._retry)
     ) {
-      console.log("Your token is expired");
-
       originalRequest._retry = true;
-
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           pendingQueue.push({ resolve, reject });
@@ -67,22 +65,20 @@ axiosInstance.interceptors.response.use(
       }
 
       isRefreshing = true;
+
       try {
-        const res = await axiosInstance.post("/auth/refresh-token");
-        console.log("New Token arrived", res);
-
+        await axiosInstance.post("/auth/refresh-token");
         processQueue(null);
-
         return axiosInstance(originalRequest);
-      } catch (error) {
-        processQueue(error);
-        return Promise.reject(error);
+      } catch (refreshError) {
+        processQueue(refreshError);
+        window.location.href = "/register";
+        return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }
     }
 
-    //* For Everything
     return Promise.reject(error);
-  }
+  },
 );
